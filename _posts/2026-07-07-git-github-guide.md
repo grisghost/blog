@@ -18,6 +18,59 @@ pin: false
 > Treat your PAT like a password. Don't paste it into files you commit, and store it somewhere safe (a password manager or your OS credential store) rather than typing it in every time.
 {: .prompt-warning }
 
+## Initial Git Configuration
+
+Before doing anything else, configure your identity. Git attaches your name and email to every commit you make.
+
+```console
+$ git config --global user.name "Your Name"
+$ git config --global user.email "you@example.com"
+```
+
+The `--global` flag applies these settings to all repositories on your machine. To apply them only to a specific project, run the same commands without `--global` from inside that project's directory.
+
+To verify your configuration at any time:
+
+```console
+$ git config --global --list
+```
+
+## Saving Your Credentials (No Password Every Time)
+
+By default, Git asks for your username and PAT on every push. To avoid that, enable the credential helper:
+
+### On Linux
+
+```console
+$ git config --global credential.helper store
+```
+
+> `store` saves credentials in plain text at `~/.git-credentials`. It is convenient but not encrypted. On a personal or private server this is usually acceptable; on a shared machine consider using `cache` instead (which keeps them in memory temporarily):
+> ```console
+> $ git config --global credential.helper 'cache --timeout=3600'
+> ```
+{: .prompt-warning }
+
+### On macOS
+
+```console
+$ git config --global credential.helper osxkeychain
+```
+
+Credentials are stored in the macOS Keychain, encrypted.
+
+### On Windows
+
+```console
+$ git config --global credential.helper manager
+```
+
+Uses the Windows Credential Manager.
+
+---
+
+After the first successful push where you enter your credentials, Git will remember them and you won't be prompted again.
+
 ## Part 1 — Pushing a New Project to GitHub
 
 Use this when you have a project on your machine that has never been pushed anywhere.
@@ -107,6 +160,86 @@ $ git commit -m "Describe what changed"
 $ git push origin main
 ```
 
+## Changing Your Configuration Later
+
+### Update Your Name or Email
+
+```console
+$ git config --global user.name "New Name"
+$ git config --global user.email "new@example.com"
+```
+
+> Changing the email globally only affects future commits. Commits already made keep the old email attached to them.
+{: .prompt-info }
+
+### Change the Default Branch Name
+
+To rename the current local branch:
+
+```console
+$ git branch -m old-name new-name
+```
+
+To rename the branch you're currently on:
+
+```console
+$ git branch -m new-name
+```
+
+After renaming, update the remote tracking reference:
+
+```console
+$ git push origin -u new-name
+```
+
+Then delete the old branch on the remote if needed:
+
+```console
+$ git push origin --delete old-name
+```
+
+### Change the Remote Repository URL
+
+To see the current remote URL:
+
+```console
+$ git remote -v
+```
+
+To update it:
+
+```console
+$ git remote set-url origin https://github.com/YOUR_USERNAME/NEW_REPO.git
+```
+
+To verify it was updated:
+
+```console
+$ git remote -v
+```
+
+### Update Saved Credentials
+
+If you generated a new PAT or changed your GitHub account, clear the saved credentials and re-enter them on the next push.
+
+**On Linux (store helper):**
+
+```console
+$ git credential reject
+protocol=https
+host=github.com
+```
+
+Or simply edit `~/.git-credentials` directly and remove the GitHub line.
+
+**On macOS:**
+
+Open **Keychain Access**, search for `github.com`, and delete the entry. Git will prompt you again on the next push.
+
+**On Windows:**
+
+Open **Credential Manager → Windows Credentials**, find the GitHub entry, and remove it.
+
 ## Handling a Rejected Push
 
 If someone else (or another machine of yours) pushed changes you don't have yet, `git push` will be rejected:
@@ -151,8 +284,15 @@ These two are identical (`-f` is just shorthand for `--force`). Unlike `--force-
 
 | Situation | Command |
 |---|---|
+| Set global username | `git config --global user.name "Name"` |
+| Set global email | `git config --global user.email "email"` |
+| Save credentials (Linux) | `git config --global credential.helper store` |
+| Save credentials (macOS) | `git config --global credential.helper osxkeychain` |
+| Save credentials (Windows) | `git config --global credential.helper manager` |
 | First-time setup in a new folder | `git init` |
 | Link to a GitHub repo | `git remote add origin <url>` |
+| Change remote URL | `git remote set-url origin <url>` |
+| Rename current branch | `git branch -m new-name` |
 | Stage all changes | `git add .` |
 | Commit staged changes | `git commit -m "message"` |
 | Get remote changes | `git pull origin main` |
@@ -161,6 +301,8 @@ These two are identical (`-f` is just shorthand for `--force`). Unlike `--force-
 | Force push (unconditional) | `git push --force origin main` |
 | Check status | `git status` |
 | See file-level changes | `git diff` |
+| View current config | `git config --global --list` |
+| View remote URL | `git remote -v` |
 
 ## Common Errors
 
