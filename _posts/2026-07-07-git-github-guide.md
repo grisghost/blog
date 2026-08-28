@@ -6,7 +6,7 @@ description: >-
 date: 2026-07-07 22:15:00 +0000
 categories: [Development, Dev Guide]
 tags: [git, github]
-pin: true
+pin: false
 ---
 
 ## Prerequisites
