@@ -1,4 +1,4 @@
-# AseelBlog
+**AseelBlog**
 
 Notes on self-hosting, Linux, networking, and dev projects.
 
