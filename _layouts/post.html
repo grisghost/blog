@@ -20,6 +20,12 @@ script_includes:
       <p class="post-desc fw-light mb-4">{{ page.description }}</p>
     {% endif %}
 
+    {% if page.source %}
+      <p class="post-source text-muted small">
+        المصدر: <a href="{{ page.source }}" target="_blank" rel="noopener">{{ page.source }}</a>
+      </p>
+    {% endif %}
+
     <div class="post-meta text-muted">
       <!-- published date -->
       <span>
