@@ -243,3 +243,63 @@ body.layout-post .particles-container {
   pointer-events: auto;
 }
 
+
+/* ==========================================================================
+   RTL Support — Arabic posts
+   ========================================================================== */
+
+
+[dir='rtl'] {
+  direction: rtl;
+  text-align: right;
+
+  .post-content,
+  .content,
+  #post-content {
+    direction: rtl;
+    text-align: right;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-align: right;
+  }
+
+  ul, ol {
+    padding-right: 1.5rem;
+    padding-left: 0;
+  }
+
+  blockquote {
+    border-right: 4px solid var(--aseel-primary) !important;
+    border-left: none !important;
+    padding-right: 1rem;
+    padding-left: 0;
+  }
+
+  .prompt-tip,
+  .prompt-info,
+  .prompt-warning,
+  .prompt-danger {
+    border-right-width: 4px;
+    border-left-width: 0;
+    padding-right: 1rem;
+    padding-left: 0.5rem;
+  }
+
+  pre,
+  code,
+  .highlight {
+    direction: ltr;
+    text-align: left;
+  }
+
+  #toc-wrapper {
+    text-align: right;
+
+    li {
+      padding-right: 0.5rem;
+      padding-left: 0;
+    }
+  }
+}
+
