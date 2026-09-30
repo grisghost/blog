@@ -163,6 +163,7 @@ script_includes:
         d-flex justify-content-between align-items-center mt-5 pb-2
       "
     >
+      {% comment %}
       <div class="license-wrapper">
         {% if site.data.locales[lang].copyright.license.template %}
           {% capture _replacement %}
@@ -174,6 +175,7 @@ script_includes:
           {{ site.data.locales[lang].copyright.license.template | replace: ':LICENSE_NAME', _replacement }}
         {% endif %}
       </div>
+      {% endcomment %}
 
       {% include post-sharing.html lang=lang %}
     </div>
