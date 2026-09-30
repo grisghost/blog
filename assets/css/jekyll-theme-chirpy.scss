@@ -307,13 +307,7 @@ body.layout-post .particles-container {
   display: none;
 }
 
-.post-meta .lastmod {
+.post-meta span:has(> i.far.fa-calendar-check) {
   display: none;
 }
-
-.post-meta span:has(+ .lastmod),
-.lastmod {
-  display: none;
-}
-
 
